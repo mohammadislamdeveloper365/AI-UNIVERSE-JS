@@ -3,3 +3,105 @@
     padding:0;
     margin:0;
 }
+
+:root {
+    font-size: 100%;
+}
+
+#header {
+    position:-webkit-sticky;
+    position: sticky;
+    top:0px;
+} 
+
+.logo {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 3rem;
+    font-style: italic;
+    text-shadow: 1rem 0.5rem 0.5rem rgb(235, 160, 160);
+}
+
+
+nav .main-menu {
+    list-style-type: none;
+    margin:0px;
+    display:flex;
+}
+
+nav .main-menu li, .icons {
+    padding:1rem;
+}
+
+nav .main-menu li:hover {
+    background-color: orangered;
+}
+.main-menu li:hover {
+    background-color: antiquewhite;
+}
+
+.main-menu a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    
+}
+
+nav .open-menu,.close-menu {
+    padding:0.75rem;
+    display:none;
+}
+
+.close-menu, .icons {
+    font-size: 1.5rem;
+}
+
+.fa-bars {
+    font-size: 2.5rem;
+    color:white;
+}
+
+.close-menu  {
+    color:black;
+    font-size:2rem;
+    color:white;
+    display:none;
+}
+.fa-facebook:hover {
+    background-color:blue ;
+}
+
+.fa-instagram:hover {
+    background-color: pink;
+}
+
+.fa-github:hover {
+    background-color: orangered;
+}
+
+
+@media screen and (max-width:800px) {
+   nav .main-menu {
+        flex-direction: column;
+        height:100vh;
+        position:fixed;
+        right:0;
+        left:0;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        transition:top 1s ease;
+        display:none;
+   }
+   nav .main-menu li:hover {
+        background:none;
+   }
+   nav .open-menu {
+        display:block;
+   }
+
+   nav .main-menu .close-menu {
+     position:absolute;
+     top:2rem;
+     display: block;
+     right:2rem;
+   }
+}
