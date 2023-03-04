@@ -1,5 +1,5 @@
 * {
-    box-sizing:border-box;
+    box-sizing: border-box;
     padding:0;
     margin:0;
 }
@@ -8,100 +8,55 @@
     font-size: 100%;
 }
 
-#header {
-    position:-webkit-sticky;
-    position: sticky;
-    top:0px;
-} 
-
-.logo {
-    font-family: 'Fjalla One', sans-serif;
+.ai-universe--navbar-logo h1 {
+    font-family: 'Mynerve', cursive;
     font-size: 3rem;
+    font-weight: 800;
+    text-shadow: 0.5rem 0.2rem 0.5rem red;
     font-style: italic;
-    text-shadow: 1rem 0.5rem 0.5rem rgb(235, 160, 160);
+    color:white;
 }
 
+.fa-bars, .fa-xmark {
+    font-size: 2.5rem;
+}
 
-nav .main-menu {
+.ai-universe--navbar-main-menu {
     list-style-type: none;
-    margin:0px;
     display:flex;
 }
 
-nav .main-menu li, .icons {
-    padding:1rem;
-}
-
-nav .main-menu li:hover {
-    background-color: orangered;
-}
-.main-menu li:hover {
-    background-color: antiquewhite;
-}
-
-.main-menu a {
-    text-decoration: none;
-    font-size: 1.5rem;
-    
-}
-
-nav .open-menu,.close-menu {
-    padding:0.75rem;
+.ai-universe--navbar-open-menu {
     display:none;
 }
 
-.close-menu, .icons {
-    font-size: 1.5rem;
-}
-
-.fa-bars {
-    font-size: 2.5rem;
-    color:white;
-}
-
-.close-menu  {
-    color:black;
-    font-size:2rem;
-    color:white;
+.ai-universe--navbar-close-menu {
     display:none;
 }
-.fa-facebook:hover {
-    background-color:blue ;
-}
 
-.fa-instagram:hover {
-    background-color: pink;
-}
+@media only screen and (max-width:800px) {
+    .ai-universe--navbar-open-menu {
+        display:block;
 
-.fa-github:hover {
-    background-color: orangered;
-}
-
-
-@media screen and (max-width:800px) {
-   nav .main-menu {
-        flex-direction: column;
+    }
+    .ai-universe--navbar-main-menu {
+        flex-direction:column;
+        display:none;
         height:100vh;
         position:fixed;
+        background-color: rgba(11, 10, 10, 0.5);
+        top:0;
         right:0;
         left:0;
         justify-content: center;
         align-items: center;
-        background-color: black;
         transition:top 1s ease;
+    }
+    .ai-universe--navbar-close-menu {
         display:none;
-   }
-   nav .main-menu li:hover {
-        background:none;
-   }
-   nav .open-menu {
-        display:block;
-   }
-
-   nav .main-menu .close-menu {
-     position:absolute;
-     top:2rem;
-     display: block;
-     right:2rem;
-   }
+        position:absolute;
+        top:1rem;
+        right:1rem;
+    }
+    
 }

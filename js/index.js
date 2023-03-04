@@ -1,13 +1,18 @@
-const openMenu = document.querySelector('.open-menu');
-const closeMenu = document.querySelector('.close-menu');
-const mainMenu = document.querySelector('.main-menu');
+let openMenu = getElement('.ai-universe--navbar-open-menu');
+let closeMenu = getElement('.ai-universe--navbar-close-menu');
+let mainMenu = getElement('.ai-universe--navbar-main-menu');
 
-openMenu.addEventListener('click',function () {
+addListener(openMenu,'click',showMainMenu);
+addListener(closeMenu,'click',closeMainMenu);
+
+function showMainMenu() {
     mainMenu.style.display = 'flex';
-    mainMenu.style.top = '0';
-    closeMenu.style.display = ''
-})
+    openMenu.style.display = 'none';
+    closeMenu.style.display = 'block';
+}
 
-closeMenu.addEventListener('click',function () {
+function closeMainMenu() {
     mainMenu.style.display = 'none';
-})
+    openMenu.style.display = 'block';
+    closeMenu.style.display = 'none';
+}
