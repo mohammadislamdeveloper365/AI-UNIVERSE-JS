@@ -59,6 +59,7 @@ function createAiCard(data) {
 
 
 function showCard(data,dataLimit) {
+    loadSpinner(true);
     console.log(data.data)
     let {tools} = data.data ?? [];
     console.log(tools.length)
@@ -71,9 +72,11 @@ function showCard(data,dataLimit) {
             createAiCard(item);
         }
 
+        loadSpinner(false);
         let showMoreBtn = getElement('#show-more-btn');
         showMoreBtn.style.display = 'inline-block';
         addListener(showMoreBtn,'click',function showMore() {
+            loadSpinner(true);
             moreTools = tools.slice(6);
             console.log(moreTools)
             for(let item of moreTools) {
@@ -81,7 +84,7 @@ function showCard(data,dataLimit) {
                 createAiCard(item);
             }
 
-
+            loadSpinner(false);
         })
     }
     
@@ -92,7 +95,15 @@ function showCard(data,dataLimit) {
             console.log(item)
             createAiCard(item);
         }
+        loadSpinner(false);
     }
 }
+
+function loadSpinner(isLoading) {
+    let spinner = getElement('.loading-spinner');
+    if(!isLoading)
+    spinner.style.display = "none";
+}
+
 loadAiDetails(6)
 createAiCard();
