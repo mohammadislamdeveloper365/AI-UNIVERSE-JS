@@ -16,3 +16,56 @@ function closeMainMenu() {
     openMenu.style.display = 'block';
     closeMenu.style.display = 'none';
 }
+
+
+function loadAiDetails(dataLimit) {
+    let url = `https://openapi.programming-hero.com/api/ai/tools`;
+    fetch(url)
+    .then(response=>response.json())
+    .then(data=>showCard(data))
+}
+
+function createAiCard(data) {
+    let cardsContainer = getElement('.ai-universe-main-cards-container');
+    let aiCardContainer = createElement('div','d-flex','flex-column','col-md-4','mb-2','p-5');
+    let imgContainer = createElement('div','mb-2');
+    let img = createElement('img','img-fluid','img-radius');
+    let cardHeader1 = createElement('h3','mb-2');
+    let listContainer = createElement('ol','mb-2','card-list-container');
+    let horizontalRow = createElement('hr','mb-2');
+    let cardHeader2 = createElement('h3','mb-2');
+    let dateContainer = createElement('div','mb-2');
+    let calendarIcon = createElement('i','fa-regular', 'fa-calendar');
+    let dateSpan = createElement('span','px-3');
+
+    cardHeader1.innerText = "Feature";
+    img.src = data.image;
+    imgContainer.append(img);
+    let lists = data.features;
+    for(let item of lists) {
+        let list = createElement('li');
+        list.innerText = item;
+        listContainer.append(list);
+    }
+
+    cardHeader2.innerText = data.name;
+    dateSpan.innerText = data.published_in;
+    dateContainer.append(calendarIcon,dateSpan)
+    aiCardContainer.append(imgContainer,cardHeader1,listContainer,horizontalRow,cardHeader2,dateContainer);
+    cardsContainer.append(aiCardContainer);
+   
+}
+
+
+function showCard(data) {
+    console.log(data.data)
+    let {tools} = data.data ?? [];
+    console.log(tools)
+    for(let item of tools) {
+        console.log(item)
+        createAiCard(item);
+    }
+    
+}
+loadAiDetails()
+createAiCard();
