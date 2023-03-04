@@ -22,14 +22,14 @@ function loadAiDetails(dataLimit) {
     let url = `https://openapi.programming-hero.com/api/ai/tools`;
     fetch(url)
     .then(response=>response.json())
-    .then(data=>showCard(data))
+    .then(data=>showCard(data,dataLimit))
 }
 
 function createAiCard(data) {
     let cardsContainer = getElement('.ai-universe-main-cards-container');
     let aiCardContainer = createElement('div','d-flex','flex-column','col-md-4','mb-2','p-5');
     let imgContainer = createElement('div','mb-2');
-    let img = createElement('img','img-fluid','img-radius');
+    let img = createElement('img','api-universe-img-card');
     let cardHeader1 = createElement('h3','mb-2');
     let listContainer = createElement('ol','mb-2','card-list-container');
     let horizontalRow = createElement('hr','mb-2');
@@ -40,6 +40,7 @@ function createAiCard(data) {
 
     cardHeader1.innerText = "Feature";
     img.src = data.image;
+    img.height = '3rem';
     imgContainer.append(img);
     let lists = data.features;
     for(let item of lists) {
@@ -57,15 +58,27 @@ function createAiCard(data) {
 }
 
 
-function showCard(data) {
+function showCard(data,dataLimit) {
     console.log(data.data)
     let {tools} = data.data ?? [];
-    console.log(tools)
-    for(let item of tools) {
-        console.log(item)
-        createAiCard(item);
+    console.log(tools.length)
+    if(dataLimit < tools.length) {
+        console.log(tools,dataLimit)
+        tools = tools.slice(0,6);
+        console.log(tools)
+        for(let item of tools) {
+            console.log(item)
+            createAiCard(item);
+        }
+        let body = document.body;
+        let btnBody = createElement('div','text-center');
+        let showMoreBtn = createElement('button','btn','btn-danger','mb-3');
+        showMoreBtn.innerText = 'Show More';
+        btnBody.append(showMoreBtn);
+        body.append(btnBody);
     }
     
+    
 }
-loadAiDetails()
+loadAiDetails(6)
 createAiCard();
