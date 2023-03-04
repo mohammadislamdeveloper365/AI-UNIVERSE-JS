@@ -1,6 +1,15 @@
 let openMenu = getElement('.ai-universe--navbar-open-menu');
 let closeMenu = getElement('.ai-universe--navbar-close-menu');
 let mainMenu = getElement('.ai-universe--navbar-main-menu');
+let sortByDateBtn = getElement('#sort-btn');
+
+
+addListener(sortByDateBtn,'click',function(){
+    console.log("Sort by date");
+    loadAiDetailsByDate(6);
+    console.log("data loading completed")
+    
+})
 
 addListener(openMenu,'click',showMainMenu);
 addListener(closeMenu,'click',closeMainMenu);
@@ -25,9 +34,19 @@ function loadAiDetails(dataLimit) {
     .then(data=>showCard(data,dataLimit))
 }
 
+function loadAiDetailsByDate(dataLimit=0) {
+    let url = `https://openapi.programming-hero.com/api/ai/tools`;
+    fetch(url)
+    .then(response=>response.json())
+    .then(data=>{
+        console.log(data)
+        showCardByDate(data,dataLimit)
+    });
+}
+
 function createAiCard(data) {
     let cardsContainer = getElement('.ai-universe-main-cards-container');
-    let aiCardContainer = createElement('div','d-flex','flex-column','col-md-4','mb-2','p-5');
+    let aiCardContainer = createElement('div','d-flex','flex-column','col-md-4','mb-2','p-5','ai-universe-main-card');
     let imgContainer = createElement('div','mb-2');
     let img = createElement('img','api-universe-img-card');
     let cardHeader1 = createElement('h3','mb-2');
@@ -57,6 +76,59 @@ function createAiCard(data) {
    
 }
 
+function showCardByDate(data,dataLimit) {
+    console.log("show card")
+    let aiCardsContainer = getElement('.ai-universe-main-cards-container');
+    aiCardsContainer.innerText = '';
+    loadSpinner(true);
+    let {tools} = data.data ?? [];
+
+    tools.sort(function(a,b){
+        return new Date(b.published_in) - new Date(a.published_in);
+    });
+    console.log(tools)
+    if(dataLimit >= 6 && dataLimit < tools.length) { 
+
+        partialTools = tools.slice(0,dataLimit);
+        for(let item of partialTools) {
+            createAiCard(item);
+        }
+
+        loadSpinner(false);
+        
+        let showMoreBtn = getElement('#show-more-btn');
+        showMoreBtn.style.display = 'inline-block';
+        
+        addListener(showMoreBtn,'click',function showMore() {
+            loadSpinner(true);
+            moreTools = tools.slice(6);
+
+            moreTools.sort(function(a,b){
+                return new Date(b.published_in) - new Date(a.published_in);
+            });
+
+            for(let item of moreTools) {
+                createAiCard(item);
+            }
+
+            loadSpinner(false);
+
+        })
+    }
+    
+
+    else {
+        tools = tools.slice(0,dataLimit);
+        for(let item of tools) {
+            createAiCard(item);
+        }
+
+        loadSpinner(false);
+    }
+
+    
+
+}
 
 function showCard(data,dataLimit) {
     loadSpinner(true);
