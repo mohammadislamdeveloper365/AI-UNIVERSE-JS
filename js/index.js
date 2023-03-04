@@ -62,23 +62,37 @@ function showCard(data,dataLimit) {
     console.log(data.data)
     let {tools} = data.data ?? [];
     console.log(tools.length)
-    if(dataLimit < tools.length) {
+    if(dataLimit >= 6 && dataLimit < tools.length) {
         console.log(tools,dataLimit)
-        tools = tools.slice(0,6);
+        partialTools = tools.slice(0,dataLimit);
         console.log(tools)
+        for(let item of partialTools) {
+            console.log(item)
+            createAiCard(item);
+        }
+
+        let showMoreBtn = getElement('#show-more-btn');
+        showMoreBtn.style.display = 'inline-block';
+        addListener(showMoreBtn,'click',function showMore() {
+            moreTools = tools.slice(6);
+            console.log(moreTools)
+            for(let item of moreTools) {
+                console.log(item)
+                createAiCard(item);
+            }
+
+
+        })
+    }
+    
+
+    else {
+        tools = tools.slice(0,dataLimit);
         for(let item of tools) {
             console.log(item)
             createAiCard(item);
         }
-        let body = document.body;
-        let btnBody = createElement('div','text-center');
-        let showMoreBtn = createElement('button','btn','btn-danger','mb-3');
-        showMoreBtn.innerText = 'Show More';
-        btnBody.append(showMoreBtn);
-        body.append(btnBody);
     }
-    
-    
 }
 loadAiDetails(6)
 createAiCard();
