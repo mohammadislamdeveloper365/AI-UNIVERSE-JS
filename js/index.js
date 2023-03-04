@@ -46,7 +46,7 @@ function loadAiDetailsByDate(dataLimit=0) {
 
 function createAiCard(data) {
     let cardsContainer = getElement('.ai-universe-main-cards-container');
-    let aiCardContainer = createElement('div','d-flex','flex-column','col-md-4','mb-2','p-5','ai-universe-main-card');
+    let aiCardContainer = createElement('div','d-flex','flex-column','col-md-3','mb-2','p-5','ai-universe-main-card');
     let imgContainer = createElement('div','mb-2');
     let img = createElement('img','api-universe-img-card');
     let cardHeader1 = createElement('h3','mb-2');
