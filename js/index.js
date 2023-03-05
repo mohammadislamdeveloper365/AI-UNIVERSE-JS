@@ -57,8 +57,29 @@ function createAiCard(data) {
     let calendarIcon = createElement('i','fa-regular', 'fa-calendar');
     let dateSpan = createElement('span','px-3');
 
+    aiCardContainer.setAttribute('data-bs-toggle','modal');
+    aiCardContainer.setAttribute('data-bs-target','#exampleModal');
+    aiCardContainer.innerHTML = `
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+        </div>
+   </div>
+    `
     cardHeader1.innerText = "Feature";
-    img.src = data.image;
+    img.src = data.image ?? "";
     img.height = '3rem';
     imgContainer.append(img);
     let lists = data.features;
@@ -68,8 +89,8 @@ function createAiCard(data) {
         listContainer.append(list);
     }
 
-    cardHeader2.innerText = data.name;
-    dateSpan.innerText = data.published_in;
+    cardHeader2.innerText = data.name ?? '';
+    dateSpan.innerText = data.published_in ?? '';
     dateContainer.append(calendarIcon,dateSpan)
     aiCardContainer.append(imgContainer,cardHeader1,listContainer,horizontalRow,cardHeader2,dateContainer);
     cardsContainer.append(aiCardContainer);
@@ -132,13 +153,10 @@ function showCardByDate(data,dataLimit) {
 
 function showCard(data,dataLimit) {
     loadSpinner(true);
-    console.log(data.data)
     let {tools} = data.data ?? [];
-    console.log(tools.length)
+
     if(dataLimit >= 6 && dataLimit < tools.length) {
-        console.log(tools,dataLimit)
         partialTools = tools.slice(0,dataLimit);
-        console.log(tools)
         for(let item of partialTools) {
             console.log(item)
             createAiCard(item);
@@ -150,7 +168,7 @@ function showCard(data,dataLimit) {
         addListener(showMoreBtn,'click',function showMore() {
             loadSpinner(true);
             moreTools = tools.slice(6);
-            console.log(moreTools)
+            
             for(let item of moreTools) {
                 console.log(item)
                 createAiCard(item);
@@ -164,7 +182,6 @@ function showCard(data,dataLimit) {
     else {
         tools = tools.slice(0,dataLimit);
         for(let item of tools) {
-            console.log(item)
             createAiCard(item);
         }
         loadSpinner(false);
