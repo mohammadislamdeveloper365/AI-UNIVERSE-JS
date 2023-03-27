@@ -15,13 +15,13 @@ addListener(openMenu,'click',showMainMenu);
 addListener(closeMenu,'click',closeMainMenu);
 
 function showMainMenu() {
-    mainMenu.style.display = 'flex';
+    mainMenu.style.top = '0';
     openMenu.style.display = 'none';
     closeMenu.style.display = 'block';
 }
 
 function closeMainMenu() {
-    mainMenu.style.display = 'none';
+    mainMenu.style.top = '-120%';
     openMenu.style.display = 'block';
     closeMenu.style.display = 'none';
 }

@@ -5,14 +5,44 @@
 }
 
 :root {
+    font-size:100%;
+}
+
+@keyframes text-shadow-animation {
+    0% {
+        text-shadow: 0.75rem 0.75rem 0.5rem red;
+    }
+    20% {
+        text-shadow: 0.75rem 0.75rem 1rem rgb(255, 217, 0);
+    }
+    40% {
+        text-shadow: 0.75rem 0.75rem 1.25rem rgb(0, 255, 0);
+    }
+    60% {
+        text-shadow: 0.75rem 0.75rem 1.5rem rgb(0, 255, 251);
+    }
+    80% {
+        text-shadow: 0.75rem 0.75rem 2rem rgb(42, 12, 139);
+    }
+    100% {
+        text-shadow: 0.75rem 0.75rem 2.5rem goldenrod;
+    }
+}
+
+:root {
     font-size: 100%;
 }
 
+.ai-universe--navbar-logo {
+    padding:0.5rem 0;
+    
+}
+
 .ai-universe--navbar-logo h1 {
-    font-family: 'Mynerve', cursive;
-    font-size: 3rem;
-    font-weight: 800;
-    text-shadow: 0.5rem 0.2rem 0.5rem red;
+    font-family: 'Philosopher', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    animation: text-shadow-animation 8s ease 0.3s infinite;
     font-style: italic;
     color:white;
 }
@@ -24,6 +54,10 @@
 .ai-universe--navbar-main-menu {
     list-style-type: none;
     display:flex;
+}
+
+.ai-universe--navbar-main-menu a {
+    font-size: 1.5rem;
 }
 
 .ai-universe--navbar-open-menu {
@@ -66,17 +100,20 @@
 }
 
 @media only screen and (max-width:800px) {
+    :root {
+        font-size:80%;
+    }
+
     .ai-universe--navbar-open-menu {
         display:block;
 
     }
     .ai-universe--navbar-main-menu {
         flex-direction:column;
-        display:none;
         height:100vh;
         position:fixed;
         background-color: rgba(11, 10, 10, 0.5);
-        top:0;
+        top:-120%;
         right:0;
         left:0;
         justify-content: center;
