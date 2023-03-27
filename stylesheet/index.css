@@ -99,6 +99,13 @@
     border-radius:2rem;
 }
 
+#default-error {
+    font-size:3rem;
+    text-align: center;
+    display:none;
+    color:red;
+}
+
 @media only screen and (max-width:800px) {
     :root {
         font-size:80%;

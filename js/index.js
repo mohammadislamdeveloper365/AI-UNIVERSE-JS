@@ -29,6 +29,11 @@ function loadAiDetails(dataLimit) {
     fetch(url)
     .then(response=>response.json())
     .then(data=>displayCard(data,dataLimit))
+    .catch(error=>{
+        getElement('#default-error').style.display = 'block';
+        loadSpinner(false);
+        console.log(error);
+    })
 }
 
 function loadAiDetailsByDate() {
@@ -37,6 +42,11 @@ function loadAiDetailsByDate() {
     .then(response=>response.json())
     .then(data=>{
         displayCardByDate(data,6)
+    })
+    .catch(error=>{
+        getElement('#default-error').style.display = 'block';
+        loadSpinner(false);
+        console.log(error);
     });
 }
 
@@ -52,27 +62,9 @@ function createAiCard(data) {
     let calendarIcon = createElement('i','fa-regular', 'fa-calendar');
     let dateSpan = createElement('span','px-3');
 
-//     aiCardContainer.setAttribute('data-bs-toggle','modal');
-//     aiCardContainer.setAttribute('data-bs-target','#exampleModal');
-//     aiCardContainer.innerHTML = `
-//     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-//         <div class="modal-dialog">
-//             <div class="modal-content">
-//               <div class="modal-header">
-//                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-//                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-//               </div>
-//               <div class="modal-body">
-//                 ...
-//               </div>
-//               <div class="modal-footer">
-//                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-//                 <button type="button" class="btn btn-primary">Save changes</button>
-//               </div>
-//             </div>
-//         </div>
-//    </div>
-//     `
+    aiCardContainer.setAttribute('data-bs-toggle','modal');
+    aiCardContainer.setAttribute('data-bs-target','#exampleModal');
+    
     cardHeader1.innerText = "Feature";
     img.src = data.image ?? "";
     img.height = '3rem';
