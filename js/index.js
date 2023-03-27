@@ -5,10 +5,7 @@ let sortByDateBtn = getElement('#sort-btn');
 
 
 addListener(sortByDateBtn,'click',function(){
-    console.log("Sort by date");
-    loadAiDetailsByDate(6);
-    console.log("data loading completed")
-    
+    loadAiDetailsByDate(6);   
 })
 
 addListener(openMenu,'click',showMainMenu);
@@ -31,21 +28,19 @@ function loadAiDetails(dataLimit) {
     let url = `https://openapi.programming-hero.com/api/ai/tools`;
     fetch(url)
     .then(response=>response.json())
-    .then(data=>showCard(data,dataLimit))
+    .then(data=>displayCard(data,dataLimit))
 }
 
-function loadAiDetailsByDate(dataLimit=0) {
+function loadAiDetailsByDate() {
     let url = `https://openapi.programming-hero.com/api/ai/tools`;
     fetch(url)
     .then(response=>response.json())
     .then(data=>{
-        console.log(data)
-        showCardByDate(data,dataLimit)
+        displayCardByDate(data,6)
     });
 }
 
 function createAiCard(data) {
-    let cardsContainer = getElement('.ai-universe-main-cards-container');
     let aiCardContainer = createElement('div','d-flex','flex-column','col-md-3','mb-2','p-5','ai-universe-main-card');
     let imgContainer = createElement('div','mb-2');
     let img = createElement('img','api-universe-img-card');
@@ -57,27 +52,27 @@ function createAiCard(data) {
     let calendarIcon = createElement('i','fa-regular', 'fa-calendar');
     let dateSpan = createElement('span','px-3');
 
-    aiCardContainer.setAttribute('data-bs-toggle','modal');
-    aiCardContainer.setAttribute('data-bs-target','#exampleModal');
-    aiCardContainer.innerHTML = `
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                ...
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-        </div>
-   </div>
-    `
+//     aiCardContainer.setAttribute('data-bs-toggle','modal');
+//     aiCardContainer.setAttribute('data-bs-target','#exampleModal');
+//     aiCardContainer.innerHTML = `
+//     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+//         <div class="modal-dialog">
+//             <div class="modal-content">
+//               <div class="modal-header">
+//                 <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+//                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+//               </div>
+//               <div class="modal-body">
+//                 ...
+//               </div>
+//               <div class="modal-footer">
+//                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+//                 <button type="button" class="btn btn-primary">Save changes</button>
+//               </div>
+//             </div>
+//         </div>
+//    </div>
+//     `
     cardHeader1.innerText = "Feature";
     img.src = data.image ?? "";
     img.height = '3rem';
@@ -93,43 +88,46 @@ function createAiCard(data) {
     dateSpan.innerText = data.published_in ?? '';
     dateContainer.append(calendarIcon,dateSpan)
     aiCardContainer.append(imgContainer,cardHeader1,listContainer,horizontalRow,cardHeader2,dateContainer);
-    cardsContainer.append(aiCardContainer);
+    return aiCardContainer;
    
 }
 
-function showCardByDate(data,dataLimit) {
-    console.log("show card")
-    let aiCardsContainer = getElement('.ai-universe-main-cards-container');
-    aiCardsContainer.innerText = '';
+function displayCardByDate(data,dataLimit) {
     loadSpinner(true);
+    let aiCardsContainer = getElement('.ai-universe-main-cards-container');
+    let aiCard;
+    aiCardsContainer.innerText = '';
     let {tools} = data.data ?? [];
 
     tools.sort(function(a,b){
         return new Date(b.published_in) - new Date(a.published_in);
     });
-    console.log(tools)
-    if(dataLimit >= 6 && dataLimit < tools.length) { 
+    
+    if(dataLimit < tools.length) { 
 
         partialTools = tools.slice(0,dataLimit);
         for(let item of partialTools) {
-            createAiCard(item);
+            aiCard = createAiCard(item);
+            aiCardsContainer.append(aiCard);
         }
 
         loadSpinner(false);
         
-        let showMoreBtn = getElement('#show-more-btn');
+        const showMoreBtn = getElement('#show-more-btn');
         showMoreBtn.style.display = 'inline-block';
         
         addListener(showMoreBtn,'click',function showMore() {
             loadSpinner(true);
-            moreTools = tools.slice(6);
+            aiCardsContainer.innerText = '';
+            moreTools = tools.slice(0);
 
             moreTools.sort(function(a,b){
                 return new Date(b.published_in) - new Date(a.published_in);
             });
 
             for(let item of moreTools) {
-                createAiCard(item);
+                aiCard = createAiCard(item);
+                aiCardsContainer.append(aiCard);
             }
 
             loadSpinner(false);
@@ -139,9 +137,9 @@ function showCardByDate(data,dataLimit) {
     
 
     else {
-        tools = tools.slice(0,dataLimit);
         for(let item of tools) {
-            createAiCard(item);
+            aiCard = createAiCard(item);
+            aiCardsContainer.append(aiCard);
         }
 
         loadSpinner(false);
@@ -151,27 +149,30 @@ function showCardByDate(data,dataLimit) {
 
 }
 
-function showCard(data,dataLimit) {
+function displayCard(data,dataLimit) {
     loadSpinner(true);
+    let cardsContainer = getElement('.ai-universe-main-cards-container');
+    let aiCard;
     let {tools} = data.data ?? [];
 
-    if(dataLimit >= 6 && dataLimit < tools.length) {
+    if(dataLimit < tools.length) {
         partialTools = tools.slice(0,dataLimit);
         for(let item of partialTools) {
-            console.log(item)
-            createAiCard(item);
+            aiCard = createAiCard(item);
+            cardsContainer.append(aiCard);
         }
 
         loadSpinner(false);
-        let showMoreBtn = getElement('#show-more-btn');
+        const showMoreBtn = getElement('#show-more-btn');
         showMoreBtn.style.display = 'inline-block';
         addListener(showMoreBtn,'click',function showMore() {
+            cardsContainer.innerText = '';
             loadSpinner(true);
-            moreTools = tools.slice(6);
+            moreTools = tools.slice(0);
             
             for(let item of moreTools) {
-                console.log(item)
-                createAiCard(item);
+                aiCard = createAiCard(item);
+                cardsContainer.append(aiCard);
             }
 
             loadSpinner(false);
@@ -180,9 +181,9 @@ function showCard(data,dataLimit) {
     
 
     else {
-        tools = tools.slice(0,dataLimit);
         for(let item of tools) {
-            createAiCard(item);
+            aiCard = createAiCard(item);
+            cardsContainer.append(aiCard);
         }
         loadSpinner(false);
     }
@@ -194,5 +195,5 @@ function loadSpinner(isLoading) {
     spinner.style.display = "none";
 }
 
-loadAiDetails(6)
-createAiCard();
+loadAiDetails(6);
+
